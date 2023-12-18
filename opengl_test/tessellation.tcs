@@ -1,0 +1,18 @@
+#version 460
+
+layout (vertices = 4) out;
+
+const float tessLevelOuter = 32.0;
+const float tessLevelInner = 32.0;
+
+void main() {
+	gl_out[gl_InvocationID].gl_Position = gl_in[gl_InvocationID].gl_Position;
+
+	gl_TessLevelOuter[0] = tessLevelOuter;
+	gl_TessLevelOuter[1] = tessLevelOuter;
+	gl_TessLevelOuter[2] = tessLevelOuter;
+	gl_TessLevelOuter[3] = tessLevelOuter;
+
+	gl_TessLevelInner[0] = tessLevelInner;
+	gl_TessLevelInner[1] = tessLevelInner;
+}

@@ -1,0 +1,33 @@
+#version 460
+
+layout (quads) in;
+
+uniform mat4 view;
+uniform mat4 projection;
+
+uniform float time;
+
+const float pi = 3.14159265;
+
+void main() {
+	float u = gl_TessCoord.x;
+	float v = gl_TessCoord.y;
+
+	vec4 v0 = gl_in[0].gl_Position;
+	vec4 v1 = gl_in[1].gl_Position;
+	vec4 v2 = gl_in[2].gl_Position;
+	vec4 v3 = gl_in[3].gl_Position;
+
+	vec4 p = v0*(1.0-u)*(1.0-v) + v1*u*(1.0-v) + v2*u*v + v3*(1.0-u)*v;
+
+	vec4 uv = v1 - v0;
+	vec4 vv = v2 - v0;
+
+	vec4 normal = normalize(vec4(cross(vv.xyz, uv.xyz), 0));
+
+	float height = 0.5 * sin(2.0 * u * pi + time) * cos(2.0 * v * pi + time);
+
+	p += normal * height;
+
+	gl_Position = projection * view * p;
+}
